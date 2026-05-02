@@ -24,7 +24,7 @@ table, th, td { border:1px solid black; border-collapse: collapse; padding:6px; 
 async function runQuery() {
     const sql = document.getElementById("sql").value;
 
-    const res = await fetch("YOUR_FUNCTION_URL", {
+    const res = await fetch("https://hiosjxyowlvrohmzpneb.supabase.co/functions/v1/run-query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sql: sql })
