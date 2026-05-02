@@ -3,14 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>SQL Exam</title>
+
 <style>
-body { font-family: Arial; max-width: 900px; margin: 40px auto; }
-textarea { width:100%; height:180px; font-size:16px; }
-button { padding:10px 20px; margin-top:10px; }
-table, th, td { border:1px solid black; border-collapse: collapse; padding:6px; }
-th { background:#f0f0f0; }
+body{
+    font-family:Arial;
+    max-width:900px;
+    margin:40px auto;
+}
+textarea{
+    width:100%;
+    height:180px;
+    font-size:16px;
+}
+button{
+    padding:10px 20px;
+    margin-top:10px;
+    font-size:16px;
+}
+table,th,td{
+    border:1px solid black;
+    border-collapse:collapse;
+    padding:6px;
+}
+th{
+    background:#f0f0f0;
+}
+#result{
+    margin-top:20px;
+}
 </style>
 </head>
+
 <body>
 
 <h2>Database Final Exam</h2>
@@ -19,44 +42,53 @@ th { background:#f0f0f0; }
 <br>
 <button onclick="runQuery()">Run Query</button>
 
-<div id="result" style="margin-top:20px;"></div>
+<div id="result"></div>
 
 <script>
-async function runQuery() {
+async function runQuery(){
+
     const sql = document.getElementById("sql").value;
 
-    const res = await fetch("https://hiosjxyowlvrohmzpneb.supabase.co/functions/v1/run-query", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "apikey": "sb_publishable_EGaTIQuLQXGI46fxB9lqDQ_nVVitgYZ",
-            "Authorization": "Bearer sb_publishable_EGaTIQuLQXGI46fxB9lqDQ_nVVitgYZ"
-        },
-        body: JSON.stringify({ sql: sql })
-    });
+    const res = await fetch(
+        "https://hiosjxyowlvrohmzpneb.supabase.co/functions/v1/run-query",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhpb3NqeHlvd2x2cm9obXpwbmViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NTA4MjAsImV4cCI6MjA5MzIyNjgyMH0.2XDFfxgrSQwCu_UHVizNCJRm4N2ZPEFAdC9JBZUST3w",
+                "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhpb3NqeHlvd2x2cm9obXpwbmViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NTA4MjAsImV4cCI6MjA5MzIyNjgyMH0.2XDFfxgrSQwCu_UHVizNCJRm4N2ZPEFAdC9JBZUST3w"
+            },
+            body:JSON.stringify({sql:sql})
+        }
+    );
 
     const data = await res.json();
 
     let html = "";
 
-    if (data.error) {
+    if(data.error){
         html = "<p style='color:red'>" + data.error + "</p>";
-    } else if (!Array.isArray(data) || data.length === 0) {
+    }
+    else if(data.length === 0){
         html = "<p>No rows returned.</p>";
-    } else {
+    }
+    else{
+
         html += "<table><tr>";
 
-        Object.keys(data[0]).forEach(col => {
-            html += "<th>" + col + "</th>";
+        Object.keys(data[0]).forEach(col=>{
+            html += "<th>"+col+"</th>";
         });
 
         html += "</tr>";
 
-        data.forEach(row => {
+        data.forEach(row=>{
             html += "<tr>";
-            Object.values(row).forEach(val => {
-                html += "<td>" + val + "</td>";
+
+            Object.values(row).forEach(val=>{
+                html += "<td>"+val+"</td>";
             });
+
             html += "</tr>";
         });
 
